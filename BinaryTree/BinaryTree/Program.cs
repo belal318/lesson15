@@ -74,7 +74,7 @@ namespace BinaryTree
         public int Value { get; set; }
         public TreeNode Left { get; set; }
         public TreeNode Right { get; set; }
-        //public TreeNode Parent { get; set; }
+        public TreeNode Parent { get; set; }
 
         public TreeNode(int value)
         {
@@ -100,6 +100,7 @@ namespace BinaryTree
             {
                 TreeNode newTreeNode = new TreeNode(value);
                 head = newTreeNode;
+                head.Parent = head;
             }
             else
             {
@@ -108,26 +109,28 @@ namespace BinaryTree
         }
         private void RecAdd(TreeNode temp, int value)
         {
-
-            if (value > temp.Value && temp.Right != null)
+            if (value < temp.Value)
             {
-                RecAdd(temp.Right, value);
+                if (temp.Left == null)
+                {
+                    temp.Left = new TreeNode(value);
+                }
+                else
+                {
+                    RecAdd(temp.Left, value);
+                }
             }
-            else if (value < temp.Value && temp.Left != null)
+            else
             {
-                RecAdd(temp.Left, value);
+                if (temp.Right == null)
+                {
+                    temp.Right = new TreeNode(value);
+                }
+                else
+                {
+                    RecAdd(temp.Right, value);
+                }
             }
-            else if (value > temp.Value && temp.Right == null)
-            {
-                TreeNode newTreeNode = new TreeNode(value);
-                temp.Right = newTreeNode;
-            }
-            else if (value < temp.Value && temp.Left == null)
-            {
-                TreeNode newTreeNode = new TreeNode(value);
-                temp.Left = newTreeNode;
-            }
-
         }
         public void PrintTree()
         {
